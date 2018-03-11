@@ -25,7 +25,6 @@ class SwaggerConfig {
           .license(licenseText)
           .build()
     
-    @Bean
     val docket: Docket = new Docket(DocumentationType.SWAGGER_2)
       .apiInfo(apiInfo)
       .pathMapping("/")
