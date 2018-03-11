@@ -10,5 +10,4 @@ import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 @ApiModel
 class UserOperation(@ApiModelProperty(required = true) username: String,
                     @ApiModelProperty(required = true) processId: String) {
-    
 }
