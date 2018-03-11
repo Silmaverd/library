@@ -1,5 +1,8 @@
 package prsen.library.model;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class BookView {
 
     public String ISBN;
