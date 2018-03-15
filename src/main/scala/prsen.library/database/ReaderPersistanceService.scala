@@ -5,11 +5,16 @@ import prsen.library.model.reader.{ReaderMapper, ReaderView}
 
 @Component
 class ReaderPersistanceService(credentials: Credentials) extends JdbcService {
-    def getReaderWithLastName(lastName: String): Option[ReaderView] = {
-        doWithJdbcTemplate(() => {
-            val query: String = s"select * from Reader where lastName = '$lastName'"
-            val reader: ReaderView = jdbcTemplate.queryForObject(query, new ReaderMapper)
-            Some(reader)
-        })(credentials)
+
+    def getReaderWithName(name: String): Option[ReaderView] = {
+        try {
+            doWithJdbcTemplate(() => {
+                val query: String = s"select * from Reader where readerName = '$name'"
+                val reader: ReaderView = jdbcTemplate.queryForObject(query, new ReaderMapper)
+                Some(reader)
+            })(credentials)
+        } catch {
+            case t: Throwable => None
+        }
     }
 }

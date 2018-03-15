@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @Configuration
 @EnableSwagger2
 @PropertySource(Array("classpath:swagger.properties"))
-@ComponentScan(basePackageClasses = Array(classOf[PersistenceAPI]))
+@ComponentScan(basePackageClasses = Array(classOf[BooksAPI]))
 class SwaggerConfig {
     private val swaggerApiVersion: String  = "1.0"
     private val licenseText: String = "License"

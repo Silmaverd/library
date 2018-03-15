@@ -11,8 +11,7 @@ class ReaderMapper extends RowMapper[ReaderView] {
     @throws[SQLException]
     override def mapRow(rs: ResultSet, rowNum: Int): ReaderView = {
         val readerView = new ReaderView(
-            rs.getString("firstName"),
-            rs.getString("lastName"),
+            rs.getString("readerName"),
             rs.getInt("rents"),
             UUID.fromString(rs.getString("guid")))
         readerView
@@ -23,8 +22,7 @@ class ReaderMapper extends RowMapper[ReaderView] {
         val buffer: mutable.MutableList[ReaderView] = mutable.MutableList.empty
         list.asScala.map(row => {
             val readerView = new ReaderView(
-                row.get("firstName").toString,
-                row.get("lastName").toString,
+                row.get("readerName").toString,
                 row.get("rents").asInstanceOf[Int],
                 UUID.fromString(row.get("rented").toString))
             buffer += readerView
