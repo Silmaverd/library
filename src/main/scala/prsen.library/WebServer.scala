@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import prsen.library.database.{BookPersistanceService, Credentials, H2DatabaseCredentials, JdbcService}
-import prsen.library.model.reader.ReaderView
 
 @ApiModel(description = "Response payload")
 trait Payload
@@ -19,7 +17,6 @@ case class Response(@ApiModelProperty(required = true, value = "is ok") ok: Bool
 @SpringBootApplication
 class WebServer
 
-
 object WebServer extends App {
     
     SpringApplication.run(classOf[WebServer], args: _*)
@@ -27,10 +24,5 @@ object WebServer extends App {
     override def main(args: Array[String]): Unit = {
         
         super.main(args)
-    
-        val persistanceAPI = new PersistenceAPI
-        
-        val h2DatabaseCredentials : Credentials = H2DatabaseCredentials.get()
-        
     }
 }

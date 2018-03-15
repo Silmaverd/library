@@ -1,10 +1,12 @@
 package prsen.library.database
 
+import org.springframework.stereotype.Component
 import prsen.library.model.book.{BookMapper, BookView}
 
-class BookPersistanceService extends JdbcService {
+@Component
+class BookPersistanceService(credentials: Credentials) extends JdbcService {
     
-    def getBookWithTitle(title: String)(implicit credentials: Credentials): Option[BookView] = {
+    def getBookWithTitle(title: String): Option[BookView] = {
         doWithJdbcTemplate(() => {
             val query: String = s"select * from Book where title = '$title'"
             val book: BookView = jdbcTemplate.queryForObject(query, new BookMapper)
@@ -12,7 +14,7 @@ class BookPersistanceService extends JdbcService {
         })(credentials)
     }
     
-    def getAllBooksOfAuthor(author: String)(implicit credentials: Credentials): Option[Set[BookView]] = {
+    def getAllBooksOfAuthor(author: String): Option[Set[BookView]] = {
         doWithJdbcTemplate(() => {
             val query: String = s"select * from Book where author = '$author'"
             val books = jdbcTemplate.queryForList(query)
