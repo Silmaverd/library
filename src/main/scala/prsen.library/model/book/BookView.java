@@ -1,7 +1,20 @@
 package prsen.library.model.book;
 
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@ToString
+@NoArgsConstructor
 public class BookView {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
     public String title;
     public String author;

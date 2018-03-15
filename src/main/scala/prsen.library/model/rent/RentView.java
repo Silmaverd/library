@@ -1,11 +1,23 @@
 package prsen.library.model.rent;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.sql.Date;
 import java.util.UUID;
 
+@Entity
+@ToString
+@NoArgsConstructor
 public class RentView {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
     public int readerId;
     public int bookId;
