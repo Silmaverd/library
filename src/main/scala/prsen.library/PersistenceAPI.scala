@@ -1,12 +1,16 @@
 package prsen.library
 
+import java.sql.Date
+import java.util.UUID
+
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives
 import io.swagger.annotations._
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation._
-import prsen.library.model.BookView
+import prsen.library.model.book.BookView
+import prsen.library.model.rent.RentView
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 @RestController
@@ -28,15 +32,18 @@ class PersistenceAPI extends Directives with SprayJsonSupport with DefaultJsonPr
         new ApiResponse(code = 200, message = "ok"),
         new ApiResponse(code = 400, message = "an error occured")
     ))
-    def getBookInfo(@RequestParam(name = "title") title: String): BookView ={
+    def getBookInfo(@RequestParam(name = "title") title: String): Unit ={
         println("Witam serdecznie")
-        new BookView("1", "sd", "sa")
     }
     
-    /*@RequestMapping(path = Array("{book}"), method = Array(RequestMethod.PUT))
-    @ApiOperation(value = "Add book", httpMethod = "PUT", response = classOf[Response])
-    def addBookToCache(@PathVariable(name = "request") request : AddBookToCacheRequest): Response ={
+    @RequestMapping(path = Array("rents"), method = Array(RequestMethod.GET))
+    @ApiOperation(value = "Show book", response = classOf[RentView])
+    @ApiResponses(value = Array(
+        new ApiResponse(code = 200, message = "ok"),
+        new ApiResponse(code = 400, message = "an error occured")
+    ))
+    def getBookInfo(@RequestParam(name = "id") id : Int): RentView ={
         println("Witam serdecznie")
-        Response(ok = true)
-    }*/
+        new RentView(1, UUID.randomUUID(), "sdasd", new Date(2398547), false)
+    }
 }

@@ -1,10 +1,9 @@
-package prsen.library.model;
+package prsen.library.model.reader;
 
 import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
-@AllArgsConstructor
 public class ReaderView {
     public String firstName;
     public String lastName;
@@ -16,5 +15,12 @@ public class ReaderView {
         this.lastName = lastName;
         rentsNumber = 0;
         readerUUID = UUID.randomUUID();
+    }
+
+    public ReaderView(String firstName, String lastName, int rentsNumber, UUID readerUUID) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.rentsNumber = rentsNumber;
+        this.readerUUID = readerUUID;
     }
 }

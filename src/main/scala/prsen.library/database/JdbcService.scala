@@ -1,13 +1,14 @@
 package prsen.library.database
 
+
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
-import prsen.library.model.BookView
 
-class JdbcExecutor {
-    private val log = LoggerFactory.getLogger(getClass)
+class JdbcService {
     
-    private def createConnection()(implicit credentials: Credentials): Option[JdbcTemplate] = {
+    protected val log = LoggerFactory.getLogger(getClass)
+    
+    protected def createConnection(credentials: Credentials): Option[JdbcTemplate] = {
         try {
             log.info("Opening database connection")
             Class.forName(credentials.driver).newInstance()
@@ -24,10 +25,13 @@ class JdbcExecutor {
         
     }
     
-    private def doWithJdbcTemplate(request: () => Option[BookView])(implicit credentials: Credentials): Option[BookView] = {
-        createConnection() match {
-            case Some(jdbcTemplate) =>
+    protected var jdbcTemplate : JdbcTemplate = _
+    
+    protected def doWithJdbcTemplate[T](request: () => Option[T])(implicit credentials: Credentials): Option[T] = {
+        createConnection(credentials) match {
+            case Some(jdbc) =>
                 log.info("Connecting succesful")
+                jdbcTemplate = jdbc
                 request.apply()
             case None =>
                 log.info("Aborting")

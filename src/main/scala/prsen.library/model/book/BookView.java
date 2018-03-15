@@ -1,8 +1,5 @@
-package prsen.library.model;
+package prsen.library.model.book;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class BookView {
 
     public String ISBN;
@@ -10,10 +7,10 @@ public class BookView {
     public String author;
     public Boolean isRented;
 
-    public BookView(String ISBN, String title, String author) {
+    public BookView(String ISBN, String title, String author, Boolean isRented) {
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
-        isRented = false;
+        this.isRented = isRented;
     }
 }

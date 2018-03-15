@@ -13,3 +13,12 @@ CREATE TABLE Reader(
   rents INTEGER NOT NULL,
   PRIMARY KEY (guid)
 );
+
+CREATE TABLE Rent(
+  id INTEGER NOT NULL,
+  bookISBN VARCHAR(40) NOT NULL,
+  readerGuid VARCHAR(50) NOT NULL,
+  startingDate DATE NOT NULL,
+  closed BOOLEAN NOT NULL,
+  PRIMARY KEY (id)
+)
