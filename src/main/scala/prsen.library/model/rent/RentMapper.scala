@@ -17,7 +17,7 @@ class RentMapper extends RowMapper[RentView] {
             rs.getInt("id"),
             UUID.fromString(rs.getString("readerGUID")),
             rs.getString("bookISBN"),
-            new java.sql.Date(format.parse(rs.getString("rentalDate")).getTime),
+            new java.sql.Date(format.parse(rs.getString("startingDate")).getTime),
             rs.getBoolean("closed"))
         rentView
     }
@@ -31,7 +31,7 @@ class RentMapper extends RowMapper[RentView] {
                 row.get("id").asInstanceOf[Int],
                 UUID.fromString(row.get("readerGUID").toString),
                 row.get("bookISBN").toString,
-                new java.sql.Date(format.parse(row.get("rentalDate").toString).getTime),
+                new java.sql.Date(format.parse(row.get("startingDate").toString).getTime),
                 row.get("closed").asInstanceOf[Boolean])
             buffer += rentView
         })

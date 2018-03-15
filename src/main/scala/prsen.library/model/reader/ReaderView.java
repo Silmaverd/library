@@ -5,21 +5,18 @@ import lombok.AllArgsConstructor;
 import java.util.UUID;
 
 public class ReaderView {
-    public String firstName;
-    public String lastName;
+    public String name;
     public int rentsNumber;
     public UUID readerUUID;
 
-    public ReaderView(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public ReaderView(String name) {
+        this.name = name;
         rentsNumber = 0;
         readerUUID = UUID.randomUUID();
     }
 
-    public ReaderView(String firstName, String lastName, int rentsNumber, UUID readerUUID) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public ReaderView(String name, int rentsNumber, UUID readerUUID) {
+        this.name = name;
         this.rentsNumber = rentsNumber;
         this.readerUUID = readerUUID;
     }

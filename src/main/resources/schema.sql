@@ -8,8 +8,7 @@ CREATE TABLE Book (
 
 CREATE TABLE Reader(
   guid VARCHAR(50) NOT NULL,
-  firstName VARCHAR(40) NOT NULL,
-  lastName VARCHAR(60) NOT NULL,
+  readerName VARCHAR(100) NOT NULL,
   rents INTEGER NOT NULL,
   PRIMARY KEY (guid)
 );
