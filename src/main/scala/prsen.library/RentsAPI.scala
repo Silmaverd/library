@@ -2,7 +2,7 @@ package prsen.library
 
 import io.swagger.annotations.{Api, ApiOperation}
 import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, RequestParam, RestController}
-import prsen.library.database.RentPersistanceService
+import prsen.library.database.jdbc.RentPersistanceService
 import prsen.library.model.rent.RentView
 
 @RestController

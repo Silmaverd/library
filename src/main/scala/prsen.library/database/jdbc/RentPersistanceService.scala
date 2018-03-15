@@ -1,8 +1,9 @@
-package prsen.library.database
+package prsen.library.database.jdbc
 
 import java.util.UUID
 
 import org.springframework.stereotype.Component
+import prsen.library.database.Credentials
 import prsen.library.model.rent.{RentMapper, RentView}
 
 @Component

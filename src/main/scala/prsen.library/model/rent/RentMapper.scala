@@ -15,8 +15,8 @@ class RentMapper extends RowMapper[RentView] {
         val format = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH)
         val rentView = new RentView(
             rs.getInt("id"),
-            UUID.fromString(rs.getString("readerGUID")),
-            rs.getString("bookISBN"),
+            rs.getInt("readerId"),
+            rs.getInt("bookId"),
             new java.sql.Date(format.parse(rs.getString("startingDate")).getTime),
             rs.getBoolean("closed"))
         rentView
@@ -29,8 +29,8 @@ class RentMapper extends RowMapper[RentView] {
         list.asScala.map(row => {
             val rentView = new RentView(
                 row.get("id").asInstanceOf[Int],
-                UUID.fromString(row.get("readerGUID").toString),
-                row.get("bookISBN").toString,
+                row.get("readerId").asInstanceOf[Int],
+                row.get("bookId").asInstanceOf[Int],
                 new java.sql.Date(format.parse(row.get("startingDate").toString).getTime),
                 row.get("closed").asInstanceOf[Boolean])
             buffer += rentView

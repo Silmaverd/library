@@ -15,9 +15,4 @@
         <property name="driver" value="org.h2.Driver"/>
     </bean>
 
-    <bean id = "bookPersistanceService" class="prsen.library.database.BookPersistanceService">
-
-    </bean>
-
-
 </beans>

@@ -12,7 +12,7 @@ class BookMapper extends RowMapper[BookView] {
     @throws[SQLException]
     override def mapRow(rs: ResultSet, rowNum: Int): BookView = {
         val bookView = new BookView(
-            rs.getString("ISBN"),
+            rs.getInt("id"),
             rs.getString("title"),
             rs.getString("author"),
             rs.getBoolean("rented"))
@@ -24,7 +24,7 @@ class BookMapper extends RowMapper[BookView] {
         val buffer: mutable.MutableList[BookView] = mutable.MutableList.empty
         list.asScala.map(row => {
             val bookView = new BookView(
-                row.get("ISBN").toString,
+                row.get("id").asInstanceOf[Int],
                 row.get("title").toString,
                 row.get("author").toString,
                 row.get("rented").asInstanceOf[Boolean])

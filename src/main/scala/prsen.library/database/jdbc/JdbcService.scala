@@ -1,8 +1,8 @@
-package prsen.library.database
-
+package prsen.library.database.jdbc
 
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
+import prsen.library.database.Credentials
 
 class JdbcService {
     

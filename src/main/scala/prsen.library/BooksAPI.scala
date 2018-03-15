@@ -3,7 +3,7 @@ package prsen.library
 import io.swagger.annotations._
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation._
-import prsen.library.database.BookPersistanceService
+import prsen.library.database.jdbc.BookPersistanceService
 import prsen.library.model.book.BookView
 
 @RestController
