@@ -1,7 +1,6 @@
 package prsen.library
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.annotations.{ApiModel, ApiModelProperty}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -31,16 +30,33 @@ object WebServer extends App {
     private val log : Logger = LoggerFactory.getLogger(getClass)
 
     // TODO: move initializing methods out of web server
+    @Bean
+    def initializeRents(rentsRepo: RentRepository,
+                        booksRepo: BookRepository,
+                        readersRepo: ReaderRepository): Boolean = {
+        try{
+            val reader = readersRepo.findByName("Roman Stanisławski").get(0)
+            val book1 = booksRepo.findByTitle("Achaja")
+            val book2 = booksRepo.findByTitle("Pomnik Cesarzowej Achai")
+            rentsRepo.save(new RentView(reader.id, book1.id, new java.sql.Date(2018, 3, 12), false))
+            rentsRepo.save(new RentView(reader.id, book2.id, new java.sql.Date(2018, 2, 9), false))
+            true
+        } catch {
+            case t: Throwable =>
+                log.error("Failed to initialize readers repository")
+                false
+        }
+    }
     
     @Bean
     def initializeBooks(repo: BookRepository): Boolean = {
         try {
-            repo.save(new BookView(1, "Virion", "Andrzej Ziemiański", false))
-            repo.save(new BookView(2, "Gra o Tron", "George R. R. Martin", true))
-            repo.save(new BookView(3, "Achaja", "Andrzej Ziemiański", true))
-            repo.save(new BookView(4, "Pomnik Cesarzowej Achai", "Andrzej Ziemiański", false))
-            repo.save(new BookView(5, "Siewca Wiatru", "Maja Lidia Kossakowska", false))
-            repo.save(new BookView(6, "Kroniki Jakuba Wędrowycza", "Andrzej Pilipiuk", false))
+            repo.save(new BookView("Virion", "Andrzej Ziemiański", false))
+            repo.save(new BookView("Gra o Tron", "George R. R. Martin", true))
+            repo.save(new BookView("Achaja", "Andrzej Ziemiański", false))
+            repo.save(new BookView("Pomnik Cesarzowej Achai", "Andrzej Ziemiański", true))
+            repo.save(new BookView("Siewca Wiatru", "Maja Lidia Kossakowska", false))
+            repo.save(new BookView("Kroniki Jakuba Wędrowycza", "Andrzej Pilipiuk", false))
             true
         } catch {
             case t: Throwable =>
@@ -49,12 +65,13 @@ object WebServer extends App {
         }
     }
     
+    
     @Bean
     def initializeReaders(repo: ReaderRepository): Boolean = {
         try{
-            repo.save(new ReaderView("Jan Kowalski",  0, 1))
-            repo.save(new ReaderView("Stanisław Janowski", 0, 2))
-            repo.save(new ReaderView("Roman Stanisławski", 2, 3))
+            repo.save(new ReaderView("Jan Kowalski",  0))
+            repo.save(new ReaderView("Stanisław Janowski", 0))
+            repo.save(new ReaderView("Roman Stanisławski", 2))
             true
         } catch {
             case t: Throwable =>
@@ -62,21 +79,6 @@ object WebServer extends App {
                 false
         }
     }
-
-    @Bean
-    def initializeRents(repo: RentRepository): Boolean = {
-        try{
-            repo.save(new RentView(1, 3, 1, new java.sql.Date(2018, 3, 12), false))
-            repo.save(new RentView(2, 3, 2, new java.sql.Date(2018, 2, 9), false))
-            true
-        } catch {
-            case t: Throwable =>
-                log.error("Failed to initialize readers repository")
-                false
-        }
-    }
-
-    
     
     override def main(args: Array[String]): Unit = {
         

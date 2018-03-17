@@ -13,19 +13,25 @@ class BooksAPI(bookRepository: BookRepository) {
     
     private val log = LoggerFactory.getLogger(getClass)
     
-    @RequestMapping(path = Array("books/getForTitle"), method = Array(RequestMethod.GET))
+    @RequestMapping(path = Array("books/GET/getForTitle"), method = Array(RequestMethod.GET))
     @ApiOperation(value = "Get book with title")
     def getBookInfo(@RequestParam(name = "title") title: String): BookView = bookRepository.findById(1).orElse(null)
     
-    @RequestMapping(path = Array("books/getForAuthor"), method = Array(RequestMethod.GET))
+    @RequestMapping(path = Array("books/GET/getForAuthor"), method = Array(RequestMethod.GET))
     @ApiOperation(value = "Get book with author")
     def getBooksForAuthor(@RequestParam(name = "name") name: String): java.util.ArrayList[BookView] = {
         bookRepository.findByAuthor(name)
     }
     
-    @RequestMapping(path = Array("books/getForRented"), method = Array(RequestMethod.GET))
+    @RequestMapping(path = Array("books/GET/getForRented"), method = Array(RequestMethod.GET))
     @ApiOperation(value = "Get rented books")
     def getBooksForAuthor(@RequestParam(name = "is rented") rented: Boolean): java.util.ArrayList[BookView] = {
         bookRepository.findByIsRented(rented)
+    }
+    
+    @RequestMapping(path = Array("books/GET/getForId"), method = Array(RequestMethod.GET))
+    @ApiOperation(value = "Get book with id")
+    def getBooksForAuthor(@RequestParam(name = "id") id: Int): BookView = {
+        bookRepository.findById(id).orElse(null)
     }
 }

@@ -13,17 +13,17 @@ import javax.persistence.Id;
 @Entity
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReaderView {
 
     public String name;
     public int rentsNumber;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
 
-    public ReaderView(String name, int rentsNumber, int id) {
+    public ReaderView(String name, int rentsNumber) {
         this.name = name;
         this.rentsNumber = rentsNumber;
-        this.id = id;
     }
 }

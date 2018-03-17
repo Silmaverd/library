@@ -1,7 +1,6 @@
 package prsen.library.model.reader
 
 import java.sql.{ResultSet, SQLException}
-import java.util.UUID
 
 import org.springframework.jdbc.core.RowMapper
 
@@ -12,8 +11,7 @@ class ReaderMapper extends RowMapper[ReaderView] {
     override def mapRow(rs: ResultSet, rowNum: Int): ReaderView = {
         val readerView = new ReaderView(
             rs.getString("readerName"),
-            rs.getInt("rents"),
-            rs.getInt("id"))
+            rs.getInt("rents"))
         readerView
     }
     
@@ -23,8 +21,7 @@ class ReaderMapper extends RowMapper[ReaderView] {
         list.asScala.map(row => {
             val readerView = new ReaderView(
                 row.get("readerName").toString,
-                row.get("rents").asInstanceOf[Int],
-                row.get("id").asInstanceOf[Int])
+                row.get("rents").asInstanceOf[Int])
             buffer += readerView
         })
         buffer.toSet
