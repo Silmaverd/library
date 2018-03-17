@@ -8,7 +8,7 @@
     <bean id = "swaggerConfigurationDocket" class = "prsen.library.Docket">
     </bean>
 
-    <bean id="credentials" class="prsen.library.database.H2DatabaseCredentials">
+    <bean id="credentials" class="prsen.library.database.jdbc.H2DatabaseCredentials">
         <property name="url" value="jdbc:h2:mem:testdb"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>

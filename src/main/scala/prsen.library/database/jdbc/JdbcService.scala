@@ -2,8 +2,8 @@ package prsen.library.database.jdbc
 
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
-import prsen.library.database.Credentials
 
+@Deprecated
 class JdbcService {
     
     protected val log = LoggerFactory.getLogger(getClass)

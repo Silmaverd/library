@@ -1,6 +1,7 @@
-package prsen.library
+package prsen.library.utils
 
-import org.springframework.context.annotation.{Bean, ComponentScan, Configuration, PropertySource}
+import org.springframework.context.annotation.{ComponentScan, Configuration, PropertySource}
+import prsen.library.api.BooksAPI
 import springfox.documentation.builders.{ApiInfoBuilder, PathSelectors}
 import springfox.documentation.service.ApiInfo
 import springfox.documentation.spi.DocumentationType

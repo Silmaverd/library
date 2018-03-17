@@ -19,6 +19,7 @@ case class Response(@ApiModelProperty(required = true, value = "is ok") ok: Bool
                     @ApiModelProperty(value = "error code") errorCode: Option[Int] = None,
                     @ApiModelProperty(value = "error message") errorMessage: Option[String] = None,
                     @ApiModelProperty(value = "payload") payload: Option[Payload] = None)
+// TODO: Return this in all api responses
 
 @SpringBootApplication
 class WebServer
@@ -29,6 +30,8 @@ object WebServer extends App {
 
     private val log : Logger = LoggerFactory.getLogger(getClass)
 
+    // TODO: move initializing methods out of web server
+    
     @Bean
     def initializeBooks(repo: BookRepository): Boolean = {
         try {
@@ -60,6 +63,7 @@ object WebServer extends App {
         }
     }
 
+    @Bean
     def initializeRents(repo: RentRepository): Boolean = {
         try{
             repo.save(new RentView(1, 3, 1, new java.sql.Date(2018, 3, 12), false))
@@ -72,8 +76,13 @@ object WebServer extends App {
         }
     }
 
+    
+    
     override def main(args: Array[String]): Unit = {
         
         super.main(args)
+        
+        // TODO: write configuration container and get local ip from maven repository properties
+        log.info("Serving at 127.0.0.1:8080/swagger-ui.html")
     }
 }

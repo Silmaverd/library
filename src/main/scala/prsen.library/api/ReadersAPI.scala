@@ -1,4 +1,4 @@
-package prsen.library
+package prsen.library.api
 
 import io.swagger.annotations.{Api, ApiOperation}
 import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, RequestParam, RestController}

@@ -1,10 +1,10 @@
 package prsen.library.database.jdbc
 
 import org.springframework.stereotype.Component
-import prsen.library.database.Credentials
 import prsen.library.model.book.{BookMapper, BookView}
 
 @Component
+@Deprecated
 class BookPersistanceService(credentials: Credentials) extends JdbcService {
     
     def getBookWithTitle(title: String): Option[BookView] = {

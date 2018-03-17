@@ -19,6 +19,7 @@ public class BookView {
     public String title;
     public String author;
     public Boolean isRented;
+    // TODO: EXPAND MODEL BY AMOUNT IN STOCK
 
     public BookView(int id, String title, String author, Boolean isRented) {
         this.id = id;
