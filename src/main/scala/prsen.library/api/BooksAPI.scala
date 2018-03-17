@@ -15,18 +15,12 @@ class BooksAPI(bookRepository: BookRepository) {
     
     @RequestMapping(path = Array("books/GET/getForTitle"), method = Array(RequestMethod.GET))
     @ApiOperation(value = "Get book with title")
-    def getBookInfo(@RequestParam(name = "title") title: String): BookView = bookRepository.findById(1).orElse(null)
+    def getBookInfo(@RequestParam(name = "title") title: String): BookView = bookRepository.findByTitle(title)
     
     @RequestMapping(path = Array("books/GET/getForAuthor"), method = Array(RequestMethod.GET))
     @ApiOperation(value = "Get book with author")
     def getBooksForAuthor(@RequestParam(name = "name") name: String): java.util.ArrayList[BookView] = {
         bookRepository.findByAuthor(name)
-    }
-    
-    @RequestMapping(path = Array("books/GET/getForRented"), method = Array(RequestMethod.GET))
-    @ApiOperation(value = "Get rented books")
-    def getBooksForAuthor(@RequestParam(name = "is rented") rented: Boolean): java.util.ArrayList[BookView] = {
-        bookRepository.findByIsRented(rented)
     }
     
     @RequestMapping(path = Array("books/GET/getForId"), method = Array(RequestMethod.GET))

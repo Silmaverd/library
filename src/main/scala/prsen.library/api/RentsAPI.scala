@@ -48,7 +48,7 @@ class RentsAPI(rentRepository: RentRepository,
             val reader = readerRepository.findById(rent.readerId).orElse(null)
             readerRepository.decreaseRentNumberById(reader.id)
             rentRepository.setClosedFor(true, rent.id)
-            bookRepository.setIsRentedForId(book.id, false)
+            bookRepository.increaseAmountInStockById(book.id)
             true
         } catch {
             case t: Throwable => {
@@ -67,10 +67,14 @@ class RentsAPI(rentRepository: RentRepository,
         try {
             val reader = readerRepository.findById(readerId)
             val book = bookRepository.findByTitle(bookTitle)
-            rentRepository.save(new RentView(reader.orElseGet(null).id, book.id, new Date(new java.util.Date().getTime), false))
-            bookRepository.setIsRentedForId(book.id, true)
-            readerRepository.increaseRentNumberById(reader.orElseGet(null).id)
-            true
+            println(book.title)
+            if (book.amountInStock < 1) false
+            else {
+                rentRepository.save(new RentView(reader.orElseGet(null).id, book.id, new Date(new java.util.Date().getTime), false))
+                bookRepository.decreaseAmountInStockById(book.id)
+                readerRepository.increaseRentNumberById(reader.orElseGet(null).id)
+                true
+            }
         } catch {
             case t: Throwable => {
                 log.error("Exception " + t.getMessage)
@@ -79,6 +83,8 @@ class RentsAPI(rentRepository: RentRepository,
             }
         }
     }
+    
+    
     
     //TODO: implement error messages and response codes
 }

@@ -51,12 +51,12 @@ object WebServer extends App {
     @Bean
     def initializeBooks(repo: BookRepository): Boolean = {
         try {
-            repo.save(new BookView("Virion", "Andrzej Ziemiański", false))
-            repo.save(new BookView("Gra o Tron", "George R. R. Martin", true))
-            repo.save(new BookView("Achaja", "Andrzej Ziemiański", false))
-            repo.save(new BookView("Pomnik Cesarzowej Achai", "Andrzej Ziemiański", true))
-            repo.save(new BookView("Siewca Wiatru", "Maja Lidia Kossakowska", false))
-            repo.save(new BookView("Kroniki Jakuba Wędrowycza", "Andrzej Pilipiuk", false))
+            repo.save(new BookView("Virion", "Andrzej Ziemiański", 1))
+            repo.save(new BookView("Gra o Tron", "George R. R. Martin", 1))
+            repo.save(new BookView("Achaja", "Andrzej Ziemiański", 2))
+            repo.save(new BookView("Pomnik Cesarzowej Achai", "Andrzej Ziemiański", 1))
+            repo.save(new BookView("Siewca Wiatru", "Maja Lidia Kossakowska", 1))
+            repo.save(new BookView("Kroniki Jakuba Wędrowycza", "Andrzej Pilipiuk", 4))
             true
         } catch {
             case t: Throwable =>

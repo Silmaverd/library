@@ -20,12 +20,11 @@ public class BookView {
     public int id;
     public String title;
     public String author;
-    public Boolean isRented;
-    // TODO: EXPAND MODEL BY AMOUNT IN STOCK
+    public int amountInStock;
 
-    public BookView(String title, String author, Boolean isRented) {
+    public BookView(String title, String author, int amountInStock) {
         this.title = title;
         this.author = author;
-        this.isRented = isRented;
+        this.amountInStock = amountInStock;
     }
 }
