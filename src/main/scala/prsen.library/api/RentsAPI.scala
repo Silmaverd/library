@@ -64,8 +64,7 @@ class RentsAPI(rentRepository: RentRepository,
     @RequestMapping(path = Array("rents/DELETE/notifyLoss"), method = Array(RequestMethod.DELETE))
     @ApiOperation(value = "Notify a loss of book")
     @Transactional(propagation = Propagation.REQUIRED)
-    def notifyABookLoss(@RequestParam(name = "reader name") name: String,
-                        @RequestParam(name = "title") title: String): Boolean = {
+    def notifyABookLoss(@RequestParam(name = "title") title: String): Boolean = {
         try {
             val book = bookRepository.findByTitle(title)
             val rent = rentRepository.findByBookId(book.id)
