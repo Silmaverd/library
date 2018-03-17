@@ -14,9 +14,17 @@ trait BookRepository extends CrudRepository[BookView, Int]{
     
     @Modifying
     @Query("UPDATE BookView book SET book.amountInStock = (SELECT amountInStock FROM BookView WHERE id = ?1)-1 WHERE book.id = ?1")
-    def decreaseAmountInStockById(id: Int) : Int
+    def decreaseAmountInStockByOneForId(id: Int) : Int
     
     @Modifying
     @Query("UPDATE BookView book SET book.amountInStock = (SELECT amountInStock FROM BookView WHERE id = ?1)+1 WHERE book.id = ?1")
-    def increaseAmountInStockById(id: Int) : Int
+    def increaseAmountInStockByOneForId(id: Int) : Int
+    
+    @Modifying
+    @Query("UPDATE BookView book SET book.amountInStock = (SELECT amountInStock FROM BookView WHERE id = ?1)-?2 WHERE book.id = ?1")
+    def dropAmountForId(id: Int, amount: Int) : Int
+    
+    @Modifying
+    @Query("UPDATE BookView book SET book.amountInStock = (SELECT amountInStock FROM BookView WHERE id = ?1)+?2 WHERE book.id = ?1")
+    def increaseAmountForId(id: Int, amount: Int) : Int
 }

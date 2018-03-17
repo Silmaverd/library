@@ -16,7 +16,7 @@ class RentsAPI(rentRepository: RentRepository,
                readerRepository: ReaderRepository,
                bookRepository: BookRepository) {
     
-    private val log : Logger = LoggerFactory.getLogger(getClass)
+    private val log: Logger = LoggerFactory.getLogger(getClass)
     
     @RequestMapping(path = Array("rents/GET/getForId"), method = Array(RequestMethod.GET))
     @ApiOperation(value = "Get rent with id")
@@ -41,14 +41,38 @@ class RentsAPI(rentRepository: RentRepository,
     @RequestMapping(path = Array("rents/POST/returnBook"), method = Array(RequestMethod.POST))
     @ApiOperation(value = "Return a book")
     @Transactional(propagation = Propagation.REQUIRED)
-    def returnBookAndCloseRent(@RequestParam(name = "title") title: String): Boolean = {
-        try{
+    def returnBookAndCloseRent(@RequestParam(name = "title") title: String,
+                               @RequestParam(name = "is damaged?") damaged: Boolean): Boolean = {
+        try {
             val book = bookRepository.findByTitle(title)
             val rent = rentRepository.findByBookId(book.id)
             val reader = readerRepository.findById(rent.readerId).orElse(null)
             readerRepository.decreaseRentNumberById(reader.id)
             rentRepository.setClosedFor(true, rent.id)
-            bookRepository.increaseAmountInStockById(book.id)
+            bookRepository.increaseAmountInStockByOneForId(book.id)
+            if (damaged) readerRepository.setDamagedById(reader.id, true)
+            true
+        } catch {
+            case t: Throwable => {
+                log.error("Exception " + t.getMessage)
+                // TODO: precise log
+                false
+            }
+        }
+    }
+    
+    @RequestMapping(path = Array("rents/DELETE/notifyLoss"), method = Array(RequestMethod.DELETE))
+    @ApiOperation(value = "Notify a loss of book")
+    @Transactional(propagation = Propagation.REQUIRED)
+    def notifyABookLoss(@RequestParam(name = "reader name") name: String,
+                        @RequestParam(name = "title") title: String): Boolean = {
+        try {
+            val book = bookRepository.findByTitle(title)
+            val rent = rentRepository.findByBookId(book.id)
+            val reader = readerRepository.findById(rent.readerId).orElse(null)
+            readerRepository.decreaseRentNumberById(reader.id)
+            readerRepository.setLostById(reader.id, true)
+            rentRepository.setClosedFor(true, rent.id)
             true
         } catch {
             case t: Throwable => {
@@ -71,7 +95,7 @@ class RentsAPI(rentRepository: RentRepository,
             if (book.amountInStock < 1) false
             else {
                 rentRepository.save(new RentView(reader.orElseGet(null).id, book.id, new Date(new java.util.Date().getTime), false))
-                bookRepository.decreaseAmountInStockById(book.id)
+                bookRepository.decreaseAmountInStockByOneForId(book.id)
                 readerRepository.increaseRentNumberById(reader.orElseGet(null).id)
                 true
             }
@@ -83,7 +107,6 @@ class RentsAPI(rentRepository: RentRepository,
             }
         }
     }
-    
     
     
     //TODO: implement error messages and response codes
