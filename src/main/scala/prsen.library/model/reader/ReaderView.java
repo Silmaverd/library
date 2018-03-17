@@ -1,23 +1,29 @@
 package prsen.library.model.reader;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+
+@Entity
+@ToString
+@NoArgsConstructor
 public class ReaderView {
+
     public String name;
     public int rentsNumber;
-    public UUID readerUUID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int id;
 
-    public ReaderView(String name) {
-        this.name = name;
-        rentsNumber = 0;
-        readerUUID = UUID.randomUUID();
-    }
-
-    public ReaderView(String name, int rentsNumber, UUID readerUUID) {
+    public ReaderView(String name, int rentsNumber, int id) {
         this.name = name;
         this.rentsNumber = rentsNumber;
-        this.readerUUID = readerUUID;
+        this.id = id;
     }
 }

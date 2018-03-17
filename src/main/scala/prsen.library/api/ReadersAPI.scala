@@ -1,8 +1,8 @@
-package prsen.library
+package prsen.library.api
 
 import io.swagger.annotations.{Api, ApiOperation}
 import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, RequestParam, RestController}
-import prsen.library.database.ReaderPersistanceService
+import prsen.library.database.jdbc.ReaderPersistanceService
 import prsen.library.model.reader.ReaderView
 
 @RestController

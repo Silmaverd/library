@@ -1,9 +1,10 @@
-package prsen.library.database
+package prsen.library.database.jdbc
 
 import org.springframework.stereotype.Component
 import prsen.library.model.reader.{ReaderMapper, ReaderView}
 
 @Component
+@Deprecated
 class ReaderPersistanceService(credentials: Credentials) extends JdbcService {
 
     def getReaderWithName(name: String): Option[ReaderView] = {

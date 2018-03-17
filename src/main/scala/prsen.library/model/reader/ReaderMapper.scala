@@ -13,7 +13,7 @@ class ReaderMapper extends RowMapper[ReaderView] {
         val readerView = new ReaderView(
             rs.getString("readerName"),
             rs.getInt("rents"),
-            UUID.fromString(rs.getString("guid")))
+            rs.getInt("id"))
         readerView
     }
     
@@ -24,7 +24,7 @@ class ReaderMapper extends RowMapper[ReaderView] {
             val readerView = new ReaderView(
                 row.get("readerName").toString,
                 row.get("rents").asInstanceOf[Int],
-                UUID.fromString(row.get("rented").toString))
+                row.get("id").asInstanceOf[Int])
             buffer += readerView
         })
         buffer.toSet

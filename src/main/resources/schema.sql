@@ -1,22 +1,22 @@
 CREATE TABLE Book (
   title VARCHAR(200) NOT NULL,
   author VARCHAR(100) NOT NULL,
-  ISBN VARCHAR(40) NOT NULL,
+  id INT NOT NULL,
   rented BOOLEAN NOT NULL,
-  PRIMARY KEY (ISBN)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE Reader(
-  guid VARCHAR(50) NOT NULL,
+  id INT NOT NULL,
   readerName VARCHAR(100) NOT NULL,
   rents INTEGER NOT NULL,
-  PRIMARY KEY (guid)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE Rent(
   id INTEGER NOT NULL,
-  bookISBN VARCHAR(40) NOT NULL,
-  readerGuid VARCHAR(50) NOT NULL,
+  bookId Int NOT NULL,
+  readerId Int NOT NULL,
   startingDate DATE NOT NULL,
   closed BOOLEAN NOT NULL,
   PRIMARY KEY (id)
