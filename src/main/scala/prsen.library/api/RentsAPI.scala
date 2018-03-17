@@ -1,6 +1,7 @@
 package prsen.library.api
 
 import java.sql.Date
+import java.util.concurrent.TimeUnit
 
 import io.swagger.annotations.{Api, ApiOperation}
 import org.slf4j.{Logger, LoggerFactory}
@@ -42,42 +43,65 @@ class RentsAPI(rentRepository: RentRepository,
     @ApiOperation(value = "Return a book")
     @Transactional(propagation = Propagation.REQUIRED)
     def returnBookAndCloseRent(@RequestParam(name = "title") title: String,
-                               @RequestParam(name = "is damaged?") damaged: Boolean): Boolean = {
+                               @RequestParam(name = "is damaged?") damaged: Boolean): Int = {
         try {
             val book = bookRepository.findByTitle(title)
             val rent = rentRepository.findByBookId(book.id)
-            val reader = readerRepository.findById(rent.readerId).orElse(null)
-            readerRepository.decreaseRentNumberById(reader.id)
-            rentRepository.setClosedFor(true, rent.id)
-            bookRepository.increaseAmountInStockByOneForId(book.id)
-            if (damaged) readerRepository.setDamagedById(reader.id, true)
-            true
+            if (!rent.isClosed) {
+                val reader = readerRepository.findById(rent.readerId).orElse(null)
+                val now = new Date(new java.util.Date().getTime)
+                readerRepository.decreaseRentNumberById(reader.id)
+                if (damaged) readerRepository.setDamagedById(reader.id, true)
+                bookRepository.increaseAmountInStockByOneForId(book.id)
+                val fee: Int = calculateFee(rent.rentalDate, now)
+                rentRepository.setClosedFor(true, rent.id)
+                rentRepository.setFeeFor(rent.id, fee)
+                fee
+            } else {
+                log.warn("this book is not rented")
+                0
+            }
         } catch {
             case t: Throwable => {
                 log.error("Exception " + t.getMessage)
                 // TODO: precise log
-                false
+                0
             }
         }
+    }
+    
+    private def calculateFee(startingDate: Date, closingDate: Date): Int = {
+        // Assuming, that allowed rental time is 30 days and fee is equal to 1 PLN for each day above 30
+        val utilStartDate = new java.util.Date(startingDate.getYear, startingDate.getMonth, startingDate.getDay)
+        val utilEndDate = new java.util.Date(closingDate.getYear, closingDate.getMonth, closingDate.getDay)
+        val diff = utilEndDate.getTime - utilStartDate.getTime
+        val diffDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).asInstanceOf[Int]
+        if (diffDays < 30) 0 else diffDays - 30
+        
     }
     
     @RequestMapping(path = Array("rents/DELETE/notifyLoss"), method = Array(RequestMethod.DELETE))
     @ApiOperation(value = "Notify a loss of book")
     @Transactional(propagation = Propagation.REQUIRED)
-    def notifyABookLoss(@RequestParam(name = "title") title: String): Boolean = {
+    def notifyABookLoss(@RequestParam(name = "title") title: String): Int = {
         try {
             val book = bookRepository.findByTitle(title)
             val rent = rentRepository.findByBookId(book.id)
             val reader = readerRepository.findById(rent.readerId).orElse(null)
+            val now = new Date(new java.util.Date().getTime)
             readerRepository.decreaseRentNumberById(reader.id)
             readerRepository.setLostById(reader.id, true)
             rentRepository.setClosedFor(true, rent.id)
-            true
+            rentRepository.setClosingDateFor(rent.id, now)
+            // Fee for lost book is 40 PLN
+            val fee: Int = calculateFee(rent.rentalDate, now) + 40
+            rentRepository.setFeeFor(rent.id, fee)
+            fee
         } catch {
             case t: Throwable => {
                 log.error("Exception " + t.getMessage)
                 // TODO: precise log
-                false
+                0
             }
         }
     }
@@ -90,7 +114,6 @@ class RentsAPI(rentRepository: RentRepository,
         try {
             val reader = readerRepository.findById(readerId)
             val book = bookRepository.findByTitle(bookTitle)
-            println(book.title)
             if (book.amountInStock < 1) false
             else {
                 rentRepository.save(new RentView(reader.orElseGet(null).id, book.id, new Date(new java.util.Date().getTime), false))

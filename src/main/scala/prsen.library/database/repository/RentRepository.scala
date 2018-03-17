@@ -22,4 +22,12 @@ trait RentRepository extends JpaRepository[RentView, Int]{
     @Modifying
     @Query("UPDATE RentView rent SET rent.isClosed = ?1 WHERE rent.id = ?2")
     def setClosedFor(isClosed : Boolean, rentId: Int): Int
+    
+    @Modifying
+    @Query("UPDATE RentView rent SET rent.closeDate = ?2 WHERE rent.id = ?1")
+    def setClosingDateFor(rentId: Int, date: Date): Int
+    
+    @Modifying
+    @Query("UPDATE RentView rent SET rent.feeInPLN = ?2 WHERE rent.id = ?1")
+    def setFeeFor(rentId: Int, fee: Int): Int
 }
