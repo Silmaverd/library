@@ -14,18 +14,18 @@ import java.util.UUID;
 @Entity
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class RentView {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
     public int readerId;
     public int bookId;
     public Date rentalDate;
     public boolean isClosed;
 
-    public RentView(int id, int readerId, int bookId, Date rentalDate, boolean isClosed) {
-        this.id = id;
+    public RentView(int readerId, int bookId, Date rentalDate, boolean isClosed) {
         this.readerId = readerId;
         this.bookId = bookId;
         this.rentalDate = rentalDate;
