@@ -1,5 +1,7 @@
 package prsen.library
 
+import java.text.SimpleDateFormat
+
 import io.swagger.annotations.{ApiModel, ApiModelProperty}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.boot.SpringApplication
@@ -38,8 +40,9 @@ object WebServer extends App {
             val reader = readersRepo.findByName("Roman Stanisławski").get(0)
             val book1 = booksRepo.findByTitle("Achaja")
             val book2 = booksRepo.findByTitle("Pomnik Cesarzowej Achai")
-            rentsRepo.save(new RentView(reader.id, book1.id, new java.sql.Date(2018, 3, 12), false))
-            rentsRepo.save(new RentView(reader.id, book2.id, new java.sql.Date(2018, 2, 9), false))
+            val format = new SimpleDateFormat("YYYY-MM-DD")
+            rentsRepo.save(new RentView(reader.id, book1.id, new java.sql.Date(format.parse("2018-03-15").getTime), false))
+            rentsRepo.save(new RentView(reader.id, book2.id, new java.sql.Date(format.parse("2018-01-30").getTime), false))
             true
         } catch {
             case t: Throwable =>
