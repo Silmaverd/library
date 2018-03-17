@@ -17,5 +17,13 @@ trait ReaderRepository extends JpaRepository[ReaderView, Int]{
     @Query("UPDATE ReaderView reader SET reader.rentsNumber = (SELECT rentsNumber FROM ReaderView WHERE id = ?1)+1 WHERE reader.id = ?1")
     def increaseRentNumberById(id: Int) : Int
     
+    @Modifying
+    @Query("UPDATE ReaderView reader SET reader.hasEverDamagedABook = ?2 WHERE reader.id = ?1")
+    def setDamagedById(id: Int, damaged: Boolean) : Int
+    
+    @Modifying
+    @Query("UPDATE ReaderView reader SET reader.hasEverLostABook = ?2 WHERE reader.id = ?1")
+    def setLostById(id: Int, lost: Boolean) : Int
+    
     
 }

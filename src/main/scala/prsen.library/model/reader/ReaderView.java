@@ -21,9 +21,13 @@ public class ReaderView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
+    public boolean hasEverDamagedABook;
+    public boolean hasEverLostABook;
 
     public ReaderView(String name, int rentsNumber) {
         this.name = name;
         this.rentsNumber = rentsNumber;
+        this.hasEverDamagedABook = false;
+        this.hasEverLostABook = false;
     }
 }
